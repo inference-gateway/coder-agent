@@ -1,0 +1,43 @@
+{
+	"schemaVersion": "0.1.0",
+	"name": "coder",
+	"version": "0.1.0",
+	"description": "A coder agent for feature development and code reviews",
+	"capabilities": {
+		"streaming": true,
+		"pushNotifications": true,
+		"stateTransitionHistory": true
+	},
+	"tools": [
+		{
+			"name": "read_file",
+			"description": "Read the contents of a file",
+			"schema": {"properties":{"limit":{"description":"The count of lines to read","maximum":1000,"type":"integer"},"path":{"description":"The file path","type":"string"}},"required":["path"],"type":"object"}
+		},
+		{
+			"name": "write_file",
+			"description": "Write or create a file with given content",
+			"schema": {"properties":{"content":{"description":"The content to write to the file","type":"string"},"mode":{"default":"write","description":"Write mode: 'write' (overwrite) or 'append'","enum":["write","append"],"type":"string"},"path":{"description":"The file path","type":"string"}},"required":["path","content"],"type":"object"}
+		},
+		{
+			"name": "list_directory",
+			"description": "List contents of a directory",
+			"schema": {"properties":{"path":{"description":"The directory path","type":"string"},"recursive":{"default":false,"description":"Whether to list recursively","type":"boolean"}},"required":["path"],"type":"object"}
+		},
+		{
+			"name": "search_code",
+			"description": "Search for code patterns or text in files",
+			"schema": {"properties":{"case_sensitive":{"default":false,"description":"Whether the search is case sensitive","type":"boolean"},"file_pattern":{"description":"File pattern to match (e.g., '*.py', '*.js')","type":"string"},"path":{"description":"The directory or file path to search in","type":"string"},"query":{"description":"The search query or pattern","type":"string"}},"required":["query","path"],"type":"object"}
+		},
+		{
+			"name": "execute_command",
+			"description": "Execute a shell command",
+			"schema": {"properties":{"command":{"description":"The command to execute","type":"string"},"timeout":{"default":30,"description":"Command timeout in seconds","type":"integer"},"working_directory":{"description":"The working directory for the command","type":"string"}},"required":["command"],"type":"object"}
+		},
+		{
+			"name": "git_operations",
+			"description": "Perform git operations like status, diff, commit, etc.",
+			"schema": {"properties":{"args":{"description":"Additional arguments for the git command","items":{"type":"string"},"type":"array"},"message":{"description":"Commit message (required for commit operation)","type":"string"},"operation":{"description":"The git operation to perform","enum":["clone","status","diff","add","commit","push","pull","checkout","branch"],"type":"string"}},"required":["operation"],"type":"object"}
+		}
+	]
+}
